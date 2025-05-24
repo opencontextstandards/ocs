@@ -1,5 +1,7 @@
 # Open Context Standards
 
+[Initiative Charter](./CHARTER.md)
+
 ## **Mission**
 
 Open Context Standards is a community-led initiative that establishes and maintains open standards for how context for AI systems is structured, parsed, delivered, and verified across all computing platforms and AI systems. The aim to create a unified foundation that enables seamless interoperability between agents, models, and applications while reducing implementation overhead for developers and end users.
