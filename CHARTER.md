@@ -50,12 +50,12 @@
 
 ## **Transparency**
 
-The group will conduct all technical work publicly in GitHub repositories rather than private communications, ensuring that contributions can be properly tracked through software tools. While meetings may be restricted to Community Group participants, the group must maintain transparency by posting any material conversations/outcomes to the initiative's GitHub Discussions for broader community visibility.
+The initiative will conduct all technical work publicly in GitHub repositories rather than private communications, ensuring that contributions can be properly tracked through software tools. While meetings may be restricted to steering committee participants, the group must maintain transparency by posting any material conversations/outcomes to the initiative's GitHub Discussions for broader community visibility.
 
 
 ## Decision Making
 
-This group operates with an odd number of official participants to ensure clear resolution when voting becomes necessary. The group seeks consensus-based decisions, with participants free to determine their own decision-making process.
+The steering committee operates with an odd number of official participants to ensure clear resolution when voting becomes necessary. The group seeks consensus-based decisions, with participants free to determine their own decision-making process.
 
 When substantial disagreement persists and progress requires resolution (which should be exceedingly rare), all participants must vote to determine the path forward. No abstentions are permitted - every member must weigh in to settle disputed issues. Participants who disagree with the final decision are encouraged to pursue alternative approaches through forking, which is preferred over blocking group progress.
 
