@@ -1,5 +1,7 @@
 # Open Context Standards
 
+![Open Context Standards Logo](./public/ocs-sm.png)
+
 [Initiative Charter](./CHARTER.md) - [Get Involved](./CONTRIBUTING.md)
 
 ## **Mission**
