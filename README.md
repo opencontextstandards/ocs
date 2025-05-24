@@ -1,6 +1,6 @@
 # Open Context Standards
 
-[Initiative Charter](./CHARTER.md)
+[Initiative Charter](./CHARTER.md) - [Get Involved](./CONTRIBUTING.md)
 
 ## **Mission**
 

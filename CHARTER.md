@@ -23,25 +23,25 @@
 
 ### **Key Focus Areas**
 
-## **Context Selection and Scoping**
+#### **Context Selection and Scoping**
 
 - Local context selection algorithms and best practices
 - Methods for determining relevant context boundaries
 - Strategies for context prioritization and filtering
 
-## **Versioning and Evolution**
+#### **Versioning and Evolution**
 
 - Context schemes and backward compatibility
 - Update mechanisms for evolving context requirements
 - Migration paths between context format versions
 
-## **Format Standardization**
+#### **Format Standardization**
 
 - Standard file formats for context storage and transmission
 - Metadata schemas for context description and classification
 - Encoding standards for various data types within context
 
-## **Adaptive Context Delivery**
+#### **Adaptive Context Delivery**
 
 - Dynamic context adaptation based on downstream system capabilities
 - Context compression, resolution, and optimization techniques
@@ -60,6 +60,17 @@ This group operates with an odd number of official participants to ensure clear 
 When substantial disagreement persists and progress requires resolution (which should be exceedingly rare), all participants must vote to determine the path forward. No abstentions are permitted - every member must weigh in to settle disputed issues. Participants who disagree with the final decision are encouraged to pursue alternative approaches through forking, which is preferred over blocking group progress.
 
 All decisions, are recorded in GitHub Discussions and remain tentative for 7 days. Any participant may object within this period by providing clear technical reasoning.
+
+## Steering Committee
+
+The Steering Committee is responsible for the overall direction and governance of the initiative. It is responsible for:
+
+- Ensuring alignment with the mission and objectives of the initiative
+- Making key decisions and setting direction for the initiative
+- Ensuring the initiative's activities align with the community's goals and values
+
+Steering Committee members are selected by committee members using the decision process outlined in the [Decision Making](#decision-making) section. Generally speaking, committee members are selected through evidence of commitment to the mission and objectives of the initiative and/or technical influence to the related industry verticals.
+
 
 ## Chair
 
