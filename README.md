@@ -46,4 +46,14 @@ These practices and standards address critical aspects of context handling and d
 Communication protocols such as MCP, A2A, HTTP, etc. all have their own standards and process for bringing the community together to solve problems. However, these systems are all finding, sharing, and passing along chunks of context and data between various systems and there’s no existing initiative to help with context itself. As a community, if we want to share ideas around how we could optimizing context delivery or formats, privacy preservations, etc. where would we go today? When a system produces context for an agent to incorporate into its system, what expectations should the system have with what the agent will do or understand with that context. This is where the Open Context Standards initiative is looking to play an important role of helping us advance context practices and standards.
 
 
-Want to get involved? Check out [CONTRIBUTING.md](./CONTRIBUTING.md) for more details.
+## **Getting Involved**
+
+We welcome contributions from:
+
+- **Developers** building context-aware applications
+- **Researchers** working on context understanding and processing
+- **Tool Maintainers** creating development and deployment tools
+- **Standards Organizations** interested in context interoperability
+- **Industry Representatives** from companies building AI and intelligent systems
+
+Together, we'll create the foundation for the next generation of context-aware computing systems. Check out [CONTRIBUTING.md](./CONTRIBUTING.md) for more details.
