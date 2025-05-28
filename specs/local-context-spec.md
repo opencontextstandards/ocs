@@ -16,7 +16,6 @@ AI systems MUST use default client context paths such as `.context/*` to search 
 - Give end users of AI systems a reliable location and expectations for context files on their client environments.
 - Allow AI systems to have ways to adapt and migrate to this standardized specification.
 - Allow users and context providers ways to customize where and how context should be considered within nested directories for more nuanced use cases.
-- Provide a consistent means for users and context providers to configure other context communication protocols (e.g. MCP) relative to projects and global on client systems.
 
 ## Specification scope
 
@@ -24,7 +23,6 @@ AI systems MUST use default client context paths such as `.context/*` to search 
 - AI systems reading context while working within nested directories.
 - AI systems reading context that is globally available in the client environment.
 - AI systems reading context that is available from dependencies.
-- AI systems configuration for additional context communication protocols (e.g. MCP).
 
 ## Not in specification scope
 
@@ -106,19 +104,6 @@ interface Configuration {
     ignoreGlobalContext?: boolean;
     ignoreAncestorContext?: boolean;
   };
-  mcpServers?: {
-    [serverName: string]: {
-      command: string;
-      type?: "stdio" | "sse" | "http";
-      args?: string[];
-      env?: Record<string, string>;
-      disabled?: boolean;
-    } | {
-      url: string;
-      headers?: Record<string, string>;
-      disabled?: boolean;
-    };
-  };
 }
 ```
 
@@ -127,7 +112,6 @@ interface Configuration {
 - `clientContext.excludeFiles` - OPTIONAL - a string of glob patterns for context files that MUST NOT be included in the final set of context files. These paths MUST be relative to the AI working directory. e.g. `['**/private-context/**']`
 - `clientContext.ignoreGlobalContext` - OPTIONAL - a boolean that specifies if all global context should be ignored while doing work within the AI working directory. Default MUST be false.
 - `clientContext.ignoreAncestorContext` - OPTIONAL - a boolean that specifies if all ancestor context should be ignored while doing work within the AI working directory. Default MUST be false.
-- `mcpServers` - OPTIONAL - object containing configuration specific to MCP servers.
 
 Where `clientContext.includeFiles` and `clientContext.excludeFiles` overlap, the `excludeFiles` pattern takes precedence and any matching files MUST be excluded.
 
@@ -169,13 +153,11 @@ The merging algorithm for context and configuration is as follows:
     2. `clientContext.excludeFiles` - arrays should be appended to and deduplicated based on pattern
     3. `clientContext.ignoreGlobalContext` - the last value wins
     4. `clientContext.ignoreAncestorContext` - the last value wins
-    5. `mcpServers` - arrays should be appended to and deduplicated based on server name
 5. apply the final configuration to the AI system
     1. `clientContext.includeFiles` - these should be used to source any new context files to add to the current list of context files (from step 2)
     2. `clientContext.excludeFiles` - these should be used to remove any context files from the final list of context files. File exclusion MUST come after file inclusion as it's a higher precedence operation.
     3. `clientContext.ignoreGlobalContext` - if the final result if `true` then the AI system should drop all global context files from the final list of context files. if `false` do nothing.
     4. `clientContext.ignoreAncestorContext` - if the final result if `true` then the AI system should drop all ancestor context files from the final list of context files. if `false` do nothing.
-    5. `mcpServers` - start up any MCP servers not already started and make them available within the available context sources and tool calls.
 
 
 ### Explicit context exclusion
@@ -195,7 +177,7 @@ Example, if I set the `GLOBAL_CONTEXT_PATH` to `/Users/myuser/Desktop/shared-con
 
 Anticipating user error with `GLOBAL_CONTEXT_PATH`, AI systems SHOULD attempt to identify if the `GLOBAL_CONTEXT_PATH` includes the client context path and gracefully handling using that as the full directory.
 
-Because the global context path can include configuration, including context communication protocols, AI systems MUST use this configuration for global context configuration. For example, in addition to AI system-specific MCP server definition files, all MCP servers configured at the global context path should be incorporated into the list of all configured MCP servers.
+Because the global context path can include configuration, including context communication protocols, AI systems MUST use this configuration for global context configuration.
 
 ### Static directory context
 
