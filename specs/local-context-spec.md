@@ -1,6 +1,7 @@
 # Client-hosted Context Specification
 
 Status: `REVIEW`
+
 Versions:
  - (Current) 1.0.0: Initial specification
 
@@ -42,7 +43,7 @@ The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL 
 - **AI system**: agents, models, and tools that process context.
 - **Client**: the environment in which an AI system is running. Generally, this is an end user's computer but it can also be a hosted container or such hosted systems where the context and the running AI system are on the same machine (e.g. a continuous integration server).
 - **Client-hosted Context**: context that is available to an AI system while it is running within a client environment.
-- **mounted directory**: for AI systems that select a directory for which all available work is possible (such as an IDE selecting a folder to open the editor with), this directory is the
+- **Mounted directory**: for AI systems that select a directory for which all available work is possible (such as an IDE selecting a folder to open the editor with), this directory is the
 "mounted directory". While the AI working directory can change as the AI system determines what work to do within nested directories, this mounted directory stays the same within the AI system's session or lifecycle.
 - **AI working directory**: the directory in which the AI system is preparing to or is actively working within. If an AI system supports having a mounted directory (like an IDE opening a coding folder), this mounted directory is the default AI working directory. If the AI system's mounted directory is `~/myproject/`, then the AI working directory is by default `~/myproject/`. If the AI system determines that it needs to add/edit a file within `nested/paths/`, the AI system's AI working directory changes to be `~/myproject/nested/paths/` during that task. The mounted directory stays the same but, depending on what the AI system's agentic decisions, the AI working directory MAY change during the course of the AI system's work.
 - **Client context path**: the relative path string that is used to find context files and configurations.
@@ -159,21 +160,22 @@ The merging algorithm for context and configuration is as follows:
 1. source all context files and context configuration files based on the supported context scopes (global, static directory, dynamic subdirectory).
 2. create a list of absolute paths for context files and track which files are from which context scope.
 3. order all context configuration files based on the following precedence order where the closer to the AI working directory the configuration is, the higher priority it has:
-  1. global context configuration (least priority)
-  2. mounted directory context configuration
-  3. each ancestor context configuration that exists from leftmost directory to rightmost directory (most priority)
+
+    1. global context configuration (least priority)
+    2. mounted directory context configuration
+    3. each ancestor context configuration that exists from leftmost directory to rightmost directory (most priority)
 4. recursively merge all context configuration files to generate the final configuration to apply
-  1. `clientContext.includeFiles` - arrays should be appended to and deduplicated based on pattern
-  2. `clientContext.excludeFiles` - arrays should be appended to and deduplicated based on pattern
-  3. `clientContext.ignoreGlobalContext` - the last value wins
-  4. `clientContext.ignoreAncestorContext` - the last value wins
-  5. `mcpServers` - arrays should be appended to and deduplicated based on server name
+    1. `clientContext.includeFiles` - arrays should be appended to and deduplicated based on pattern
+    2. `clientContext.excludeFiles` - arrays should be appended to and deduplicated based on pattern
+    3. `clientContext.ignoreGlobalContext` - the last value wins
+    4. `clientContext.ignoreAncestorContext` - the last value wins
+    5. `mcpServers` - arrays should be appended to and deduplicated based on server name
 5. apply the final configuration to the AI system
-  1. `clientContext.includeFiles` - these should be used to source any new context files to add to the current list of context files (from step 2)
-  2. `clientContext.excludeFiles` - these should be used to remove any context files from the final list of context files. File exclusion MUST come after file inclusion as it's a higher precedence operation.
-  3. `clientContext.ignoreGlobalContext` - if the final result if `true` then the AI system should drop all global context files from the final list of context files. if `false` do nothing.
-  4. `clientContext.ignoreAncestorContext` - if the final result if `true` then the AI system should drop all ancestor context files from the final list of context files. if `false` do nothing.
-  5. `mcpServers` - start up any MCP servers not already started and make them available within the available context sources and tool calls.
+    1. `clientContext.includeFiles` - these should be used to source any new context files to add to the current list of context files (from step 2)
+    2. `clientContext.excludeFiles` - these should be used to remove any context files from the final list of context files. File exclusion MUST come after file inclusion as it's a higher precedence operation.
+    3. `clientContext.ignoreGlobalContext` - if the final result if `true` then the AI system should drop all global context files from the final list of context files. if `false` do nothing.
+    4. `clientContext.ignoreAncestorContext` - if the final result if `true` then the AI system should drop all ancestor context files from the final list of context files. if `false` do nothing.
+    5. `mcpServers` - start up any MCP servers not already started and make them available within the available context sources and tool calls.
 
 
 ### Explicit context exclusion
