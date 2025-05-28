@@ -9,7 +9,7 @@ Versions:
 
 Client-hosted context is context available to AI systems while working within a client's environment. For example, code editors, IDEs, and other development tools often provide context to AI systems while working on a developer's computer. When working within this environment, this client-hosted context specification is how compliant AI systems should search for and find the proper context to use within its processes.
 
-AI systems MUST use default client context paths such as `.context/*` to search for context files locally and globally. `.context/config.json` or `.context/config.yaml` MUST be reserved for use as additional context configuration (e.g. overriding defaults, adding additional context files, etc.).
+AI systems MUST use default client context paths such as `.context/*` to search for context files locally and globally. `.context/context-config.json` MUST be reserved for use as additional context configuration (e.g. overriding defaults, adding additional context files, etc.).
 
 ## Goals
 
