@@ -233,7 +233,8 @@ AI Systems MUST use context file properties to filter down the applicable use of
 
 Properties individual context files MAY set:
 - `description` - OPTIONAL - a description of the context file and where it would be most applicable. Default is empty string. A description MUST be set if the trigger is `agent`.
-- `globs` - OPTIONAL - an array of glob patterns that define the files that the context file is applicable to. Default is `[*]` (all files).
+- `appliesTo` - OPTIONAL - an array of glob patterns that define the files that the context file is applicable to. Default is `[*]` (all files).
+- `globs` - OPTIONAL - this is an alias for `appliesTo` for backwards compatibility with common existing patterns. AI Systems MUST ignore this property if `appliesTo` is set.
 - `disabled` - OPTIONAL - a boolean value that indicates if the context file should be ignored. Default is `false`.
 - `trigger` - OPTIONAL - a string that defines the trigger for the context file. Default is empty string. AI systems MUST compare trigger values with a case insensitive comparison. Default is `manual`.
   - `always` - Always included in the model context.
@@ -248,7 +249,7 @@ Example context files:
 ```md
 ---
 description: "Format preferences for JavaScript files"
-globs: **/*.{js|ts}, webpackconfig.js
+appliesTo: **/*.{js|ts}, webpackconfig.js
 trigger: auto
 ---
 
@@ -259,7 +260,7 @@ Keep the modules in alphabetical order but grouped by external import vs interna
 ```md
 ---
 description: "Format preferences for CSS files"
-globs:
+appliesTo:
   - **/*.{css}
   - **/*.{scss|less}
 trigger: auto
