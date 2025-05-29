@@ -220,11 +220,14 @@ Properties individual context files MAY set:
 - `disabled` - OPTIONAL - a boolean value that indicates if the context file should be ignored. Default is `false`.
 - `trigger` - OPTIONAL - a string that defines the trigger for the context file. Default is empty string. AI systems MUST compare trigger values with a case insensitive comparison. Default is `manual`.
   - `always` - Always included in the model context.
-  - `auto` - Included when files matching a glob pattern are referenced.
+  - `pattern` - Included when files matching a glob pattern of the `appliesTo` property are referenced.
   - `agent` - Available to the AI, which decides whether to include it. User MUST provide a description.
   - `manual` - Only included when explicitly mentioned using a AI system specific reference.
 
 AI systems MAY accept context files with properties other than the ones defined above for backwards compatibility.
+
+AI Systems MAY truncate context files based on their length and the scenarios where they are used.
+
 
 Example context files:
 
@@ -251,8 +254,6 @@ trigger: auto
 Don't use @import for CSS files.
 
 ```
-
-AI Systems MAY truncate context files based on their length and the scenarios where they are used.
 
 
 ## Migration considerations
