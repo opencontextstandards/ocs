@@ -159,12 +159,6 @@ The merging algorithm for context and configuration is as follows:
     3. `clientContext.ignoreGlobalContext` - if the final result if `true` then the AI system should drop all global context files from the final list of context files. if `false` do nothing.
     4. `clientContext.ignoreAncestorContext` - if the final result if `true` then the AI system should drop all ancestor context files from the final list of context files. if `false` do nothing.
 
-
-### Explicit context exclusion
-
-To avoid inadvertent exposure of sensitive information, AI systems MUST explicitly exclude files that are known to have very sensitive information. At very minimum, this list of patterns MUST be used to always exclude files: `.env`, `.env.*`, `.key`, `.key.*`, `.pem`, `.pem.*`, `.crt`, `.crt.*`, `.p12`, `.p12.*`, `.pfx`, `.pfx.*`, `.jks`, `.jks.*`, `.keystore`, `.keystore.*`, `.ppk`, `.ppk.*`, `.ssh/id_*`, `.kdbx`, `.kdbx.*`, `.asc`, `.asc.*`, `.gpg`, `.gpg.*`, `credentials*`, `*_key`, `*_key.*`, `.ovpn`, `.ovpn.*`.
-
-
 ### Global context
 
 Global context is used for setting context files and context configuration in a way that should be discoverable and used in all AI system work unless where configured to be ignored.
@@ -202,26 +196,39 @@ AI systems MAY cache these lookups to improve performance for many directory loo
 
 There are no active standards around context file formats. The following is the industry best current practices for context files formats while improved standards are being formalized.
 
-- **Plaintext files**
-  - `.txt` files represent plaintext files. AI systems MUST accept the raw context as context.
+**Markdown files**
+Files with the `.md` extension represent markdown files. AI systems MUST accept the `.md` extension. If the file contains [front matter](https://jekyllrb.com/docs/front-matter/), AI systems MUST parse the front matter and use it as properties.
 
-- **Markdown files**
-  - `.md` and `.mdc` files represent markdown files. AI systems MUST accept both extensions and the raw context as context. If the file contains [front matter](https://jekyllrb.com/docs/front-matter/), AI systems MUST parse the front matter and use it as properties.
+**Front matter parser requirements**
+
+Front matter is YAML configuration in between two `---` lines that reside as the very first content in a file. For consistency, these basic requirements MUST be followed. When scanning the first line of a file, if the full contents of the first line is `---` then we consider this file as having front matter. If the file starts with `---`, the parser should continue to scan lines until it finds the next line that contains only `---`. All of the lines between these two `---` lines should be inputted as they are written to a YAML parser to translate the configuration into properties usable by the AI system. If the file is considered to include front matter because it starts with `---` but fails to include a closing `---` or has invalid YAML, the parser MAY throw an error.
+
+Example front matter:
+
+```md
+---
+myProperty: Hello World
+otherProperty:
+  - item 1
+  - item 2
+---
+```
 
 
 #### Context file properties
 
-AI Systems MUST use context file properties to filter down the applicable use of context.
+AI systems MUST use context file properties to filter down the applicable use of context.
 
 Properties individual context files MAY set:
-- `description` - OPTIONAL - a description of the context file and where it would be most applicable. Default is empty string. A description MUST be set if the trigger is `agent`.
+- `description` - OPTIONAL - a description of the context file and where it would be most applicable. Default is empty string. Description SHOULD be oriented towards human consumption and `instructions` SHOULD be oriented towards AI model consumption. If `instructions` is omitted, then `description` MUST be used for AI model consumption.
+- `instructions` - OPTIONAL - instructions for the AI model on how to use the context file. Default is empty string. Instructions SHOULD be oriented towards AI model consumption and `description` SHOULD be oriented towards human consumption. If both `description` and `instructions` are set, then `instructions` MUST be used for AI model consumption.
 - `appliesTo` - OPTIONAL - an array of glob patterns that define the files that the context file is applicable to. Default is `[*]` (all files).
 - `globs` - OPTIONAL - this is an alias for `appliesTo` for backwards compatibility with common existing patterns. AI Systems MUST ignore this property if `appliesTo` is set.
 - `disabled` - OPTIONAL - a boolean value that indicates if the context file should be ignored. Default is `false`.
 - `trigger` - OPTIONAL - a string that defines the trigger for the context file. Default is empty string. AI systems MUST compare trigger values with a case insensitive comparison. Default is `manual`.
   - `always` - Always included in the model context.
   - `pattern` - Included when files matching a glob pattern of the `appliesTo` property are referenced.
-  - `agent` - Available to the AI, which decides whether to include it. User MUST provide a description.
+  - `agent` - Available to the AI, which decides whether to include it. User MUST provide `instructions` or `description` property.
   - `manual` - Only included when explicitly mentioned using a AI system specific reference.
 
 AI systems MAY accept context files with properties other than the ones defined above for backwards compatibility.
@@ -266,7 +273,7 @@ For example, if a system currently uses `.myairules` as a file or `.myai/rules/*
 
 ```json
 {
-  "include": [
+  "includeFiles": [
     ".myairules",
     ".myai/rules/*"
   ]
